@@ -7,41 +7,50 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
-    private float m_speed = 1;
+    private float m_speed = 10;
     [SerializeField]
-    private float m_threshold = 1;
-
+    private float m_start_threshold = 0.01f;
+    [SerializeField]
+    private float m_stop_threshold = 0.001f;
+    [SerializeField] 
+    private GameObject camera_rig;
     [SerializeField]
     private XRController left_hand;
     [SerializeField]
     private XRController right_hand;
-
     private Rigidbody rigid_body;
-
-    private float last_timestep;
     private Vector3 last_difference;
 
     // Start is called before the first frame update
     void Start()
     {
-        last_timestep = 0f;
         rigid_body = GetComponent<Rigidbody>();
+        last_difference = new Vector3(0, 0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
         Vector3 hand_difference = left_hand.transform.position - right_hand.transform.position;
-        Debug.Log("hand difference: " + hand_difference);
+        Vector3 difference_in_time = hand_difference - last_difference;
+        Debug.Log("new difference: " + difference_in_time);
 
-        Vector3 new_difference = hand_difference - last_difference;
-
-        if ((Mathf.Abs(new_difference[0]) > m_threshold) || (Mathf.Abs(new_difference[1]) > m_threshold) || (Mathf.Abs(new_difference[2]) > m_threshold))
+        if ((Mathf.Abs(difference_in_time[0]) > m_start_threshold) || (Mathf.Abs(difference_in_time[1]) > m_start_threshold) || (Mathf.Abs(difference_in_time[2]) > m_start_threshold))
         {
-            rigid_body.velocity = transform.forward * m_speed; // forward of headset?
+            rigid_body.transform.position += new Vector3(camera_rig.transform.forward.x, 0, camera_rig.transform.forward.z) * Time.deltaTime * m_speed;
+            Debug.Log("läuft.");
+        }
+        else
+        {
+            if ((Mathf.Abs(rigid_body.velocity.x) > m_stop_threshold || (Mathf.Abs(rigid_body.velocity.y) > m_stop_threshold) || (Mathf.Abs(rigid_body.velocity.z) > m_stop_threshold)))
+            {
+                Debug.Log("wird langsamer.");
+                rigid_body.velocity *= 0.5f;
+
+            }
+            else rigid_body.velocity = new Vector3(0, 0, 0); Debug.Log("stoppt.");
         }
 
-        last_timestep = Time.deltaTime;
-        last_difference = new_difference;
+        last_difference = hand_difference;
     }
 }
