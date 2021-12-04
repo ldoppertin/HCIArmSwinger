@@ -1,5 +1,8 @@
 ## Unity ##
 
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
 *.cs diff=csharp text
 *.cginc text
 *.shader text
