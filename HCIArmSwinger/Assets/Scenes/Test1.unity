@@ -1611,6 +1611,7 @@ GameObject:
   - component: {fileID: 1847170769}
   - component: {fileID: 1847170768}
   - component: {fileID: 1847170770}
+  - component: {fileID: 1847170771}
   m_Layer: 0
   m_Name: XR Rig
   m_TagString: Untagged
@@ -1665,8 +1666,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_speed: 10
-  m_start_threshold: 0.01
-  m_stop_threshold: 0.001
+  m_start_threshold: 0.02
+  m_stop_threshold: 0.002
   camera_rig: {fileID: 963194225}
   left_hand: {fileID: 2080771812}
   right_hand: {fileID: 1412644926}
@@ -1695,11 +1696,25 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!136 &1847170771
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847170765}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2.1120682
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.7073245, z: 0}
 --- !u!1001 &1851981317
 PrefabInstance:
   m_ObjectHideFlags: 0
